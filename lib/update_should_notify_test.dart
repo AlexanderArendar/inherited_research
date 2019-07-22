@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class DataProvider extends InheritedWidget {
+class ColorProvider extends InheritedWidget {
   final Color data;
 
-  DataProvider({
+  ColorProvider({
     this.data,
     Widget child,
     Key key,
@@ -14,15 +14,15 @@ class DataProvider extends InheritedWidget {
           key: key,
         );
 
-  static DataProvider of(BuildContext context) => context.inheritFromWidgetOfExactType(DataProvider);
+  static ColorProvider of(BuildContext context) => context.inheritFromWidgetOfExactType(ColorProvider);
 
   @override
-  bool updateShouldNotify(DataProvider oldWidget) {
+  bool updateShouldNotify(ColorProvider oldWidget) {
     return oldWidget.data != data;
   }
 }
 
-class DataSelectorState extends State<DataSelector> {
+class ColorPickerState extends State<ColorPicker> {
   Color _data;
 
   @override
@@ -74,7 +74,7 @@ class DataSelectorState extends State<DataSelector> {
           ],
         ),
         Expanded(
-          child: DataProvider(
+          child: ColorProvider(
             child: widget.child,
             data: _data,
           ),
@@ -84,16 +84,16 @@ class DataSelectorState extends State<DataSelector> {
   }
 }
 
-class DataSelector extends StatefulWidget {
+class ColorPicker extends StatefulWidget {
   final Widget child;
 
-  DataSelector({this.child, Key key})
+  ColorPicker({this.child, Key key})
       : super(
           key: key,
         );
 
   @override
-  State<StatefulWidget> createState() => DataSelectorState();
+  State<StatefulWidget> createState() => ColorPickerState();
 }
 
 class MyApp extends StatelessWidget {
@@ -120,14 +120,14 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("What are inherited widgets?"),
       ),
-      body: DataSelector(child: Builder(
+      body: ColorPicker(child: Builder(
         builder: (context) {
           return Text(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut "
             "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip "
             "ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
             "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            style: TextStyle(color: DataProvider.of(context).data),
+            style: TextStyle(color: ColorProvider.of(context).data),
           );
         },
       )),

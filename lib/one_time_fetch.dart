@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class DataProvider extends InheritedWidget {
+class ColorProvider extends InheritedWidget {
   final Color data;
 
-  DataProvider({
+  ColorProvider({
     this.data,
     Widget child,
     Key key,
@@ -14,18 +14,18 @@ class DataProvider extends InheritedWidget {
           key: key,
         );
 
-  static DataProvider of(BuildContext context) => context.inheritFromWidgetOfExactType(DataProvider);
+  static ColorProvider of(BuildContext context) => context.inheritFromWidgetOfExactType(ColorProvider);
 
   @override
-  bool updateShouldNotify(DataProvider oldWidget) {
-    return oldWidget.data != data;
+  bool updateShouldNotify(ColorProvider oldWidget) {
+    return false;
   }
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DataProvider(
+    return ColorProvider(
       data: Colors.blue,
       child: MaterialApp(
         title: 'Inherited Research',
@@ -55,7 +55,7 @@ class MyHomePage extends StatelessWidget {
           "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip "
           "ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
           "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          style: TextStyle(color: DataProvider.of(context).data),
+          style: TextStyle(color: ColorProvider.of(context).data),
         ),
       ),
     );
