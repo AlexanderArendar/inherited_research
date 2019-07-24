@@ -97,20 +97,42 @@ class ColorPicker extends StatefulWidget {
 }
 
 class ContextDependentTextState extends State<ContextDependentText> {
+  Color _borderColor;
+
+  void _saveColorStateInPreferences(){
+    //some expensive BE call here
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print("****************Inherited widget changed******************");
+    Color textColor = ColorProvider.of(context).data;
+    if (textColor == Colors.green)
+      _borderColor = Colors.red;
+    else
+      _borderColor = Colors.green;
+    _saveColorStateInPreferences();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut "
-      "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip "
-      "ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
-      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      style: TextStyle(color: ColorProvider.of(context).data),
+    return Container(
+      child: Text(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut "
+        "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip "
+        "ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
+        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        style: TextStyle(
+          color: ColorProvider.of(context).data,
+        ),
+      ),
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 2,
+          style: BorderStyle.solid,
+          color: _borderColor,
+        ),
+      ),
     );
   }
 }
@@ -118,19 +140,6 @@ class ContextDependentTextState extends State<ContextDependentText> {
 class ContextDependentText extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => ContextDependentTextState();
-}
-
-class ContextIndependentText extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut "
-      "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip "
-      "ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
-      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      style: TextStyle(color: Colors.black),
-    );
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -158,13 +167,7 @@ class MyHomePage extends StatelessWidget {
         title: Text("What are inherited widgets?"),
       ),
       body: ColorPicker(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            ContextDependentText(),
-            ContextIndependentText(),
-          ],
-        ),
+        child: ContextDependentText(),
       ),
     );
   }
