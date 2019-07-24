@@ -98,6 +98,8 @@ class ColorPicker extends StatefulWidget {
 
 class ContextDependentTextState extends State<ContextDependentText> {
   Color _borderColor;
+  Color _textColor;
+  ColorProvider _colorProvider;
 
   void _saveColorStateInPreferences(){
     //some expensive BE call here
@@ -106,8 +108,9 @@ class ContextDependentTextState extends State<ContextDependentText> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Color textColor = ColorProvider.of(context).data;
-    if (textColor == Colors.green)
+    _colorProvider = ColorProvider.of(context);
+    _textColor = _colorProvider.data;
+    if (_textColor == Colors.green)
       _borderColor = Colors.red;
     else
       _borderColor = Colors.green;
@@ -123,7 +126,7 @@ class ContextDependentTextState extends State<ContextDependentText> {
         "ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
         "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         style: TextStyle(
-          color: ColorProvider.of(context).data,
+          color: _textColor,
         ),
       ),
       decoration: BoxDecoration(
